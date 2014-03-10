@@ -1,5 +1,15 @@
 #!/usr/bin/env ruby
 
 require 'tepoch'
+require 'optparse'
 
-puts ARGV
+options = { :utc => true }
+OptionParser.new do |opts|
+  opts.banner = "Usage: tepoch [options"
+  
+  opts.on("-local", "Convert to local time") do |v|
+    options[:utc] = false
+  end
+end.parse!
+
+puts ARGV.map { |timestamp| Tepoch::Tepoch.to_time(timestamp.to_i, options[:utc]) }
