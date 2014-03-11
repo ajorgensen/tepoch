@@ -13,4 +13,5 @@ describe Tepoch::Tepoch do
   it 'convert can convert to utc' do
     Tepoch::Tepoch.to_time(timestamp, true).should be_utc
   end
+
 end

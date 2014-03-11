@@ -3,13 +3,36 @@
 require 'tepoch'
 require 'optparse'
 
-options = { :utc => true }
+options = { :utc => true, :keep_as_timestamp => false }
 OptionParser.new do |opts|
   opts.banner = "Usage: tepoch [options"
   
-  opts.on("-local", "Convert to local time") do |v|
+  opts.on("--local", "Convert to local time") do |v|
     options[:utc] = false
+  end
+
+  opts.on("--timestamp", "Keep as timestamp") do |v|
+    options[:keep_as_timestamp] = true
   end
 end.parse!
 
-puts ARGV.map { |timestamp| Tepoch::Tepoch.to_time(timestamp.to_i, options[:utc]) }
+arithmetic_symbols = %w(- +)
+if ARGV[1] && arithmetic_symbols.include?(ARGV[1])
+  t1 = ARGV[0].to_i
+  t2 = ARGV[2].to_i
+  
+  diff = t1.send(ARGV[1], t2)
+
+  if ARGV[1] == "-"
+    puts Tepoch::Tepoch.seconds_to_string(diff)
+  else
+    puts options[:keep_as_timestamp] ? diff.to_i : Tepoch::Tepoch.to_time(diff, options[:utc])
+  end
+
+else
+  if options[:keep_as_timestamp]
+    puts ARGV
+  else
+    puts ARGV.map { |timestamp| Tepoch::Tepoch.to_time(timestamp.to_i, options[:utc]) }
+  end
+end
