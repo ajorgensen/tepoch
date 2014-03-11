@@ -1,4 +1,5 @@
 require 'tepoch/util'
+require 'tepoch/clock'
 
 module Tepoch
   class Tepoch

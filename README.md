@@ -31,6 +31,11 @@ Difference between two times:
 tepoch 1363223109 - 1331687109 => 365 days, 0 hours, 0 minutes, 0 seconds
 ```
 
+There's even a clock. It displays the timestamp | human date time | time since epoch in human readable format
+```
+tepoch clock
+```
+
 Flags
 -----
 By default this will convert everything to utc. If you would like to keep it in local time you can pass `--local`

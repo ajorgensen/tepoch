@@ -24,6 +24,12 @@ if ARGV[1] && arithmetic_symbols.include?(ARGV[1])
   diff = t1.send(ARGV[1], t2)
 
   puts (options[:keep_as_timestamp]) ? diff : Tepoch::Tepoch.seconds_to_string(diff)
+elsif ARGV[0] == "clock"
+  clock = Tepoch::Clock.new
+  loop do
+    clock.tick(options[:utc])
+    sleep(1)
+  end
 else
   if options[:keep_as_timestamp]
     puts ARGV
