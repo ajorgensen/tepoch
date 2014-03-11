@@ -1,7 +1,7 @@
 Tepoch
 ======
 
-A simple library for doing interactive with unix timestamps in the terminal
+A simple library for interacting with unix timestamps in the terminal
 
 Installation
 -----------
