@@ -16,19 +16,14 @@ OptionParser.new do |opts|
   end
 end.parse!
 
-arithmetic_symbols = %w(- +)
+arithmetic_symbols = %w(-)
 if ARGV[1] && arithmetic_symbols.include?(ARGV[1])
   t1 = ARGV[0].to_i
   t2 = ARGV[2].to_i
   
   diff = t1.send(ARGV[1], t2)
 
-  if ARGV[1] == "-"
-    puts Tepoch::Tepoch.seconds_to_string(diff)
-  else
-    puts options[:keep_as_timestamp] ? diff.to_i : Tepoch::Tepoch.to_time(diff, options[:utc])
-  end
-
+  puts (options[:keep_as_timestamp]) ? diff : Tepoch::Tepoch.seconds_to_string(diff)
 else
   if options[:keep_as_timestamp]
     puts ARGV
