@@ -36,7 +36,7 @@ Flags
 By default this will convert everything to utc. If you would like to keep it in local time you can pass `--local`
 ```
 tepoch 1363223109 => 2013-03-14 01:05:09 UTC
-tepoch 1363223109 => 2013-03-13 21:05:09 -0400
+tepoch 1363223109 --local => 2013-03-13 21:05:09 -0400
 ```
 
 If you want the output to be in timestamp form you can pass the `--timestamp` flag
