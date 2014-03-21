@@ -7,4 +7,5 @@ task :install do
 
   system %Q{gem build tepoch.gemspec}
   system %Q{gem install #{gem_name}}
+  system %Q{rm #{gem_name}}
 end
