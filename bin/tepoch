@@ -16,29 +16,17 @@ OptionParser.new do |opts|
   end
 end.parse!
 
-arithmetic_symbols = %w(-)
-if ARGV[1] && arithmetic_symbols.include?(ARGV[1])
-  t1 = ARGV[0].to_i
-  t2 = ARGV[2].to_i
-  
-  diff = t1.send(ARGV[1], t2)
+command = Tepoch::Interface.new(ARGV)
 
-  puts (options[:keep_as_timestamp]) ? diff : Tepoch::Tepoch.seconds_to_string(diff)
-elsif ARGV[0] == "clock"
+if command.clock?
   clock_thread = Thread.new do
-    clock = Tepoch::Clock.new
     loop do
-      clock.tick(options[:utc])
-      sleep(1)
+      print Tepoch::Interface.perform(ARGV, options)
     end
   end
-  
+
   str = STDIN.gets
   clock_thread.kill
 else
-  if options[:keep_as_timestamp]
-    puts ARGV
-  else
-    puts ARGV.map { |timestamp| Tepoch::Tepoch.to_time(timestamp.to_i, options[:utc]) }
-  end
+  puts Tepoch::Interface.perform(ARGV, options)
 end
