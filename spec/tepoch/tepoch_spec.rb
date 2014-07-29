@@ -1,7 +1,8 @@
 require 'spec_helper'
 
 describe Tepoch::Tepoch do
-  let(:timestamp) { 1394483688}
+  let(:timestamp) { 1394483688 }
+
   it 'should conver a unix timestamp into a time object' do
     Tepoch::Tepoch.to_time(timestamp).should eq Time.at(timestamp)
   end

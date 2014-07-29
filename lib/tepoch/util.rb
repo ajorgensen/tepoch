@@ -23,5 +23,13 @@ module Tepoch
       return ""
     end
 
+    def self.epoch
+      Date.new(1970,1,1)
+    end
+
+    def self.milliseconds?(timestamp)
+      timestamp > 2147483648
+    end
+
   end
 end

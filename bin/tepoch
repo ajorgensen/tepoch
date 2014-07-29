@@ -3,37 +3,52 @@
 require 'tepoch'
 require 'optparse'
 
-options = { :utc => true, :keep_as_timestamp => false }
+options = { :local => false, :milliseconds => false }
 OptionParser.new do |opts|
   opts.banner = "Usage: tepoch [options"
   
   opts.on("--local", "Convert to local time") do |v|
-    options[:utc] = false
+    options[:local] = true
   end
 
-  opts.on("--timestamp", "Keep as timestamp") do |v|
-    options[:keep_as_timestamp] = true
+  opts.on("--now", "Timestamp right now") do |v|
+    options[:now] = true
+  end
+
+  opts.on("--days", "Timestamp right now") do |v|
+    options[:days] = true
+  end
+
+  opts.on("--seconds", "Timestamp right now") do |v|
+    options[:seconds] = true
+  end
+
+  opts.on("--minutes", "Timestamp right now") do |v|
+    options[:minutes] = true
+  end
+  
+  opts.on("--hours", "Timestamp right now") do |v|
+    options[:hours] = true
+  end
+
+  opts.on("--milliseconds", "Timestamp right now") do |v|
+    options[:milliseconds] = true
   end
 end.parse!
 
-arithmetic_symbols = %w(-)
-if ARGV[1] && arithmetic_symbols.include?(ARGV[1])
-  t1 = ARGV[0].to_i
-  t2 = ARGV[2].to_i
-  
-  diff = t1.send(ARGV[1], t2)
-
-  puts (options[:keep_as_timestamp]) ? diff : Tepoch::Tepoch.seconds_to_string(diff)
-elsif ARGV[0] == "clock"
-  clock = Tepoch::Clock.new
-  loop do
-    clock.tick(options[:utc])
-    sleep(1)
-  end
-else
-  if options[:keep_as_timestamp]
-    puts ARGV
-  else
-    puts ARGV.map { |timestamp| Tepoch::Tepoch.to_time(timestamp.to_i, options[:utc]) }
-  end
+if options[:now]
+  puts Tepoch::Interface.timestamp_now(options[:milliseconds])
+elsif options[:days]
+  puts Tepoch::Interface.days_since_epoch(options[:local])
+elsif options[:seconds]
+  puts Tepoch::Interface.seconds_since_start_of_day(options[:local])
+elsif options[:minutes]
+  puts Tepoch::Interface.minutes_since_start_of_day(options[:local])
+elsif options[:hours]
+  puts Tepoch::Interface.hours_since_start_of_day(options[:local])
+elsif ARGV[0]
+  timestamp = ARGV[0].to_i
+  puts Tepoch::Interface.timestamp_to_human_readable(timestamp, options[:local])
 end
+
+
